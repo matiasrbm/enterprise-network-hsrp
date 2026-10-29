@@ -1,0 +1,104 @@
+!
+version 16.3.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname CORE1
+!
+no ip cef
+ip routing
+!
+no ipv6 cef
+!
+spanning-tree mode pvst
+spanning-tree vlan 1,100,200,300,400 priority 0
+!
+interface Port-channel1
+!
+interface GigabitEthernet1/0/1
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/2
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/3
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/5
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/6
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/7
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 500
+ switchport mode access
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan100
+ mac-address 0010.11c9.5d01
+ ip address 172.16.0.2 255.255.255.0
+ ip helper-address 10.0.0.20
+ standby version 2
+ standby 100 ip 172.16.0.1
+ standby 100 priority 120
+ standby 100 preempt
+!
+interface Vlan200
+ mac-address 0010.11c9.5d02
+ ip address 172.16.10.2 255.255.255.0
+ ip helper-address 10.0.0.20
+ standby version 2
+ standby 200 ip 172.16.10.1
+ standby 200 priority 120
+ standby 200 preempt
+!
+interface Vlan300
+ mac-address 0010.11c9.5d03
+ ip address 172.16.20.2 255.255.255.0
+ ip helper-address 10.0.0.20
+ standby version 2
+ standby 300 ip 172.16.20.1
+ standby 300 priority 120
+ standby 300 preempt
+!
+interface Vlan400
+ mac-address 0010.11c9.5d04
+ ip address 10.0.0.2 255.255.255.0
+ ip access-group 100 out
+ standby version 2
+ standby 400 ip 10.0.0.1
+ standby 400 priority 120
+ standby 400 preempt
+!
+interface Vlan500
+ mac-address 0010.11c9.5d05
+ ip address 10.99.99.10 255.255.255.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.99.99.1
+!
+ip flow-export version 9
+!
+access-list 100 deny tcp 172.16.0.0 0.0.0.255 host 10.0.0.30 eq www
+access-list 100 deny tcp 172.16.0.0 0.0.0.255 host 10.0.0.30 eq 443
+access-list 100 permit ip any any
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end

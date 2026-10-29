@@ -1,0 +1,43 @@
+!
+version 12.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname ISP-BROCOLIS
+!
+no ip cef
+no ipv6 cef
+!
+interface GigabitEthernet3/0
+ ip address 2.2.2.1 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet4/0
+ ip address 10.99.99.2 255.255.255.0
+ ip nat inside
+ duplex auto
+ speed auto
+!
+ip nat inside source list 1 interface GigabitEthernet3/0 overload
+ip classless
+ip route 172.16.0.0 255.255.255.0 10.99.99.11
+ip route 172.16.10.0 255.255.255.0 10.99.99.11
+ip route 172.16.20.0 255.255.255.0 10.99.99.11
+ip route 10.0.0.0 255.255.255.0 10.99.99.11
+ip route 0.0.0.0 0.0.0.0 2.2.2.2
+!
+ip flow-export version 9
+!
+access-list 1 permit any
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end

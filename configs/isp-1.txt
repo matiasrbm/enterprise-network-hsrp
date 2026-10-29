@@ -1,0 +1,43 @@
+!
+version 12.2
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname ISP-BATATA
+!
+no ip cef
+no ipv6 cef
+!
+interface GigabitEthernet6/0
+ ip address 10.99.99.1 255.255.255.0
+ ip nat inside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet7/0
+ ip address 1.1.1.1 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+ip nat inside source list 1 interface GigabitEthernet7/0 overload
+ip classless
+ip route 172.16.0.0 255.255.255.0 10.99.99.10
+ip route 172.16.10.0 255.255.255.0 10.99.99.10
+ip route 172.16.20.0 255.255.255.0 10.99.99.10
+ip route 10.0.0.0 255.255.255.0 10.99.99.10
+ip route 0.0.0.0 0.0.0.0 1.1.1.2
+!
+ip flow-export version 9
+!
+access-list 1 permit any
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+end
