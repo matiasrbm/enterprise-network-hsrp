@@ -4,6 +4,8 @@ Lab de rede corporativa em alta disponibilidade, montado no Cisco Packet Tracer.
 A camada core é redundante, o acesso é segmentado por VLANs e a saída para a
 Internet passa por dois provedores.
 
+**Criado em:** abril de 2025
+
 ![Topologia](topology/topology.png)
 
 ## O que a rede faz
